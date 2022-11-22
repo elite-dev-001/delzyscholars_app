@@ -57,7 +57,7 @@ class _RegisterState extends State<Register> {
       };
       final dio = Dio();
       Response response = await dio.post(
-          'https://delzyscholarsapi.herokuapp.com/api/create/user',
+          'https://thoughtful-pullover-worm.cyclic.app/api/create/user',
           data: data);
       if (response.statusCode != 200) return;
 

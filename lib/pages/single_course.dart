@@ -27,6 +27,9 @@ class _SingleCourseState extends State<SingleCourse> {
   final oCcy = NumberFormat("#,##0.00", "en_US");
   bool? activated;
 
+  final live = 'pk_live_6f16d735236a5774d9444768ec143fd99c87aea7';
+  final test = 'pk_test_81b44119342883ffd970a7900732d9d6e00cd157';
+
   void getMaterialId() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() => activated = prefs.getBool(widget.course['_id']));
@@ -39,7 +42,7 @@ class _SingleCourseState extends State<SingleCourse> {
     super.initState();
     getMaterialId();
     plugin.initialize(
-        publicKey: 'pk_test_81b44119342883ffd970a7900732d9d6e00cd157');
+        publicKey: live);
   }
 
   @override
@@ -199,7 +202,7 @@ class _SingleCourseState extends State<SingleCourse> {
     setState(() => loading = true);
     final data = {"courseId": widget.course['_id']};
     final dio = Dio();
-    Response response = await dio.patch('https://delzyscholarsapi.herokuapp.com/api/update/courses/${widget.id}', data: data);
+    Response response = await dio.patch('https://thoughtful-pullover-worm.cyclic.app/api/update/courses/${widget.id}', data: data);
     if(response.statusCode != 200) return;
 
     pinPage(pin: response.data['pin'].toString());
@@ -218,7 +221,7 @@ class _SingleCourseState extends State<SingleCourse> {
                     ? () => pinPage()
                     : () async {
                         final charge = Charge()
-                          ..email = 'wilsonchinedu1@gmail.com'
+                          ..email = 'support@delzyscholars.com'
                           ..amount =
                               int.tryParse(widget.course['courseAmount'])! * 100
                           // ..accessCode = _makePaymentRequest('ref_${DateTime.now().millisecondsSinceEpoch}').toString()

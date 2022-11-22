@@ -59,13 +59,14 @@ class _CategoriesState extends State<Categories> {
     final prefs = await SharedPreferences.getInstance();
     final id = prefs.getString('id');
     loggedIn = prefs.getBool('isLoggedIn');
-    // prefs.remove('6351b145573a49634e4d469d');
+    prefs.remove('6351b145573a49634e4d469d');
+    // prefs.remove('isLoggedIn');
     if (loggedIn != null && id != null) {
       setState(() => loading = true);
       _id = id;
       final dio = Dio();
       Response response = await dio
-          .get('https://delzyscholarsapi.herokuapp.com/api/get/one/$id');
+          .get('https://thoughtful-pullover-worm.cyclic.app/api/get/one/$id');
       if (response.statusCode != 200) return;
       setState(() => loading = false);
 

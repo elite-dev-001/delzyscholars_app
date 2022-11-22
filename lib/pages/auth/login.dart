@@ -32,7 +32,7 @@ class _LoginState extends State<Login> {
       };
       final dio = Dio();
       Response response = await dio
-          .post('https://delzyscholarsapi.herokuapp.com/api/login', data: data);
+          .post('https://thoughtful-pullover-worm.cyclic.app/api/login', data: data);
       if (response.statusCode != 200) return;
 
       setState(() => loading = false);

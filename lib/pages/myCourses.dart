@@ -22,7 +22,7 @@ class _MyCoursesState extends State<MyCourses> {
     final dio = Dio();
     setState(() => isLoading = true);
     Response response = await dio.get(
-        'https://delzyscholarsapi.herokuapp.com/api/materials/get/all/materials');
+        'https://thoughtful-pullover-worm.cyclic.app/api/materials/get/all/materials');
     if (response.statusCode != 200) return;
 
 

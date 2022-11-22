@@ -45,7 +45,7 @@ class _OtpState extends State<Otp> {
     setState(() => linearLoading = true);
     final dio = Dio();
     Response response = await dio.post(
-        'https://delzyscholarsapi.herokuapp.com/api/verify/user',
+        'https://thoughtful-pullover-worm.cyclic.app/api/verify/user',
         data: {"phoneNumber": number});
     if (response.statusCode != 200) return;
     setState(() => linearLoading = false);
@@ -59,24 +59,19 @@ class _OtpState extends State<Otp> {
 
   void requestOtp() async {
     data = {
-      'sender': 'DelsApp',
-      "recipient": _controller.text,
-      "message":
+      'from': 'DelsApp',
+      "to": '+234${_controller.text}',
+      "body":
           'Your One Time Password is $otpPin. Don\'t share with anybody. Expires in 60 secs'
     };
     if (phoneReady) {
       setState(() => isLoading = true);
       final dio = Dio();
-      Response response = await dio.post(
-          'https://messaging.vtpass.com/v2/api/sms/sendsms',
-          data: data,
-          options:
-              Options(contentType: Headers.formUrlEncodedContentType, headers: {
-            'X-Token':
-                'VTP_PK_cca1a712042739bd68c328b567f512f59270af72ae7e7f663c8b0916e887dcc8',
-            'X-Secret':
-                'VTP_SK_f9addd434b278cb29a6a3abc179eb9539c1a44d61b5ae47dcbf14daa6c9b7b97'
-          }));
+      Response response = await dio.post('https://connect.routee.net/sms', options: Options(
+          headers: {
+            'Authorization': 'Bearer b6574828-0d72-4925-baa9-10a4a4fb7425'
+          }
+      ), data: data);
       if (response.statusCode != 200) return;
       // debugPrint(response.toString());
       setState(() {

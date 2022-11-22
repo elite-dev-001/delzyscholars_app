@@ -32,7 +32,7 @@ class _ActivatePageState extends State<ActivatePage> {
     final dio = Dio();
     final data = {"activationPin": pin, "materialId": widget.materialId};
     Response response = await dio.patch(
-        'https://delzyscholarsapi.herokuapp.com/api/activation/use/pin',
+        'https://thoughtful-pullover-worm.cyclic.app/api/activation/use/pin',
         data: data);
     debugPrint(response.data.toString());
     if (response.statusCode != 200) return;

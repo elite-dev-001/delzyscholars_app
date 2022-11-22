@@ -25,7 +25,7 @@ class _HomeState extends State<Home> {
     final dio = Dio();
     setState(() => isLoading = true);
     Response response = await dio.get(
-        'https://delzyscholarsapi.herokuapp.com/api/materials/get/all/materials?category=${widget.route}');
+        'https://thoughtful-pullover-worm.cyclic.app/api/materials/get/all/materials?category=${widget.route}');
     if (response.statusCode != 200) return;
 
     debugPrint(response.data.toString());
@@ -36,7 +36,7 @@ class _HomeState extends State<Home> {
   Future refresh() async {
     final dio = Dio();
     Response response = await dio.get(
-        'https://delzyscholarsapi.herokuapp.com/api/materials/get/all/materials?category=${widget.route}');
+        'https://thoughtful-pullover-worm.cyclic.app/api/materials/get/all/materials?category=${widget.route}');
     if (response.statusCode != 200) return;
 
     setState(() => (allMaterials = response.data['results']));
