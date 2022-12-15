@@ -1,4 +1,4 @@
-package com.example.delzyscholars
+package com.delzy.delzyscholars
 
 import io.flutter.embedding.android.FlutterActivity
 
