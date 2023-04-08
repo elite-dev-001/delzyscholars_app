@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'login.dart';
 
 class Register extends StatefulWidget {
-  const Register({Key? key, required this.number}) : super(key: key);
-  final String number;
+  const Register({Key? key,}) : super(key: key);
+  // final String number;
 
   @override
   State<Register> createState() => _RegisterState();
@@ -19,6 +19,7 @@ class _RegisterState extends State<Register> {
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
+  final TextEditingController numberController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController cPasswordController = TextEditingController();
 
@@ -50,7 +51,7 @@ class _RegisterState extends State<Register> {
       setState(() => loading = true);
       final data = {
         "name": nameController.text,
-        "phoneNumber": widget.number,
+        "phoneNumber": numberController.text,
         "email": emailController.text,
         "password": passwordController.text,
         "confirmPassword": cPasswordController.text
@@ -65,15 +66,15 @@ class _RegisterState extends State<Register> {
       if (response.data['status'] == 'ok') {
         login();
       } else {
-        setState(() => err = 'Email has already been used');
+        setState(() => err = 'Email has already be en used');
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController numberController =
-        TextEditingController(text: widget.number);
+    // final TextEditingController numberController =
+    //     TextEditingController(text: widget.number);
 
     final formData = [
       {
@@ -218,7 +219,7 @@ class _RegisterState extends State<Register> {
           onChanged: (e) => onchange(e),
           validator: (pin) => validate(pin) ? errMessage : null,
           keyboardType: keyType ?? TextInputType.text,
-          readOnly: readOnly ?? false,
+          readOnly: false,
           decoration: InputDecoration(
               border: const OutlineInputBorder(),
               hintText: hintText,

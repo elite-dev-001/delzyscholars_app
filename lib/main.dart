@@ -5,7 +5,10 @@ import 'package:delzyscholars/pages/carousel_page.dart';
 // import 'package:delzyscholars/pages/home.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(const MyApp());
+void main() {
+  // WidgetsFlutterBinding.ensureInitialized();
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);

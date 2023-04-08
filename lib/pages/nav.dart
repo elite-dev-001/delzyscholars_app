@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'downloads.dart';
 import 'home.dart';
 
-class NavigationDrawer extends StatefulWidget {
-  const NavigationDrawer(
-      {Key? key, required this.logOut, required this.scaffoldKey, this.name, required this.id})
+class NavigationDrawers extends StatefulWidget {
+  const NavigationDrawers(
+      {Key? key,
+      required this.logOut,
+      required this.scaffoldKey,
+      this.name,
+      required this.id})
       : super(key: key);
   final Function logOut;
   final GlobalKey<ScaffoldState> scaffoldKey;
@@ -13,10 +17,10 @@ class NavigationDrawer extends StatefulWidget {
   final String id;
 
   @override
-  State<NavigationDrawer> createState() => _NavigationDrawerState();
+  State<NavigationDrawers> createState() => _NavigationDrawerState();
 }
 
-class _NavigationDrawerState extends State<NavigationDrawer> {
+class _NavigationDrawerState extends State<NavigationDrawers> {
   bool? loginState;
 
   void checkLoginState() async {
@@ -41,6 +45,10 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
       {
         'icon': Icons.book,
         'text': 'All Courses',
+      },
+      {
+        'icon': Icons.download,
+        'text': 'Downloads',
       },
       {
         'icon': Icons.school,
@@ -119,15 +127,17 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                   widget.logOut()
                 }
             : () => Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (builder) => Home(
-                  route: text.toLowerCase() == ('all courses') ||
-                      text.toLowerCase() == ('my courses')
-                      ? ''
-                      : text,
-                  id: widget.id,
-                ))),
+                context,
+                MaterialPageRoute(
+                    builder: (builder) => text == 'Downloads'
+                        ? const Downloads()
+                        : Home(
+                            route: text.toLowerCase() == ('all courses') ||
+                                    text.toLowerCase() == ('my courses')
+                                ? ''
+                                : text,
+                            id: widget.id,
+                          ))),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [

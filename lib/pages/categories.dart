@@ -5,10 +5,10 @@ import 'package:delzyscholars/pages/home.dart';
 import 'package:delzyscholars/pages/myCourses.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+// import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'nav.dart';
+import 'package:delzyscholars/pages/nav.dart';
 
 class Categories extends StatefulWidget {
   const Categories({
@@ -142,7 +142,7 @@ class _CategoriesState extends State<Categories> {
       onWillPop: () => leaveApp(),
       child: Scaffold(
         key: _scaffoldKey,
-        drawer: NavigationDrawer(
+        drawer: NavigationDrawers(
           logOut: logOut,
           scaffoldKey: _scaffoldKey,
           name: name,

@@ -6,9 +6,13 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.1'
+        classpath 'com.android.tools.build:gradle:7.4.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
+
+//    lintOptions {
+//        checkReleaseBuilds false
+//    }
 }
 
 allprojects {
@@ -17,6 +21,8 @@ allprojects {
         mavenCentral()
     }
 }
+
+
 
 rootProject.buildDir = '../build'
 subprojects {
@@ -29,3 +35,5 @@ subprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+

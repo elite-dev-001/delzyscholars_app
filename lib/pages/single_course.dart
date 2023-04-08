@@ -42,7 +42,7 @@ class _SingleCourseState extends State<SingleCourse> {
     super.initState();
     getMaterialId();
     plugin.initialize(
-        publicKey: live);
+        publicKey: test);
   }
 
   @override

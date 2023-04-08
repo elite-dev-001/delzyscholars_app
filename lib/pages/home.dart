@@ -20,8 +20,13 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   bool isLoading = false;
   List allMaterials = [];
+  List currentMaterial = [];
+  String? selectedLevel;
+  String? selectedSemester;
+  String? selectedCat;
 
   void getAllMaterials() async {
+    selectedCat = widget.route;
     final dio = Dio();
     setState(() => isLoading = true);
     Response response = await dio.get(
@@ -61,44 +66,137 @@ class _HomeState extends State<Home> {
         centerTitle: true,
         actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.search))],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(30.0),
-        child: isLoading
-            ? const Center(
-                child: CircularProgressIndicator(
-                backgroundColor: Color(0xff309255),
-                color: Colors.white,
-              ))
-            : RefreshIndicator(
-                onRefresh: refresh,
-                child: allMaterials.isEmpty
-                    ? Center(
-                        child: Text(
-                          'No Available Courses for ${widget.route} this Moment',
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                              color: Color(0xff309255),
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600),
+      body: selectedLevel != null
+          ? semesters()
+          : (selectedCat == 'UNIPORT' ||
+                  selectedCat == 'RSUST' ||
+                  selectedCat == 'IAUE')
+              ? levels()
+              : Padding(
+                  padding: const EdgeInsets.all(30.0),
+                  child: isLoading
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                          backgroundColor: Color(0xff309255),
+                          color: Colors.white,
+                        ))
+                      : RefreshIndicator(
+                          onRefresh: refresh,
+                          child: currentMaterial.isEmpty
+                              ? Center(
+                                  child: Text(
+                                    'No Available Courses for ${widget.route} this Moment',
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                        color: Color(0xff309255),
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                )
+                              : ListView(
+                                  children: currentMaterial
+                                      .map(
+                                        (e) => material(
+                                            e['courseImg'].toString(),
+                                            e['author'].toString(),
+                                            e['category'].toString(),
+                                            e['title'].toString(),
+                                            e['courseCode'].toString(),
+                                            e['courseAmount'].toString(),
+                                            e['_id'].toString(),
+                                            e),
+                                      )
+                                      .toList(),
+                                ),
                         ),
-                      )
-                    : ListView(
-                        children: allMaterials
-                            .map(
-                              (e) => material(
-                                  e['courseImg'].toString(),
-                                  e['author'].toString(),
-                                  e['category'].toString(),
-                                  e['title'].toString(),
-                                  e['courseCode'].toString(),
-                                  e['courseAmount'].toString(),
-                                  e['_id'].toString(),
-                                  e
-                              ),
-                            )
-                            .toList(),
+                ),
+    );
+  }
+
+  final currentSemesters = [
+    'SEMESTER 1',
+    'SEMESTER 2',
+  ];
+
+  Widget semesters() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: currentSemesters
+                .map((e) => Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            selectedSemester = e;
+                            // debugPrint(currentMaterial.toString());
+                            setState(() {
+                              currentMaterial = allMaterials
+                                  .takeWhile((e) =>
+                                      (e?['level'] == selectedLevel &&
+                                          e?['semester'] == selectedSemester))
+                                  .toList();
+                              // debugPrint(currentMaterial.toString());
+                              selectedLevel = null;
+                              selectedCat = null;
+                            });
+                          },
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                                const Color(0xff309255)),
+                          ),
+                          child: Text(e),
+                        ),
                       ),
-              ),
+                    ))
+                .toList()),
+      ),
+    );
+  }
+
+  final currentLevels = [
+    'BASIC',
+    'LEVEL 100',
+    'LEVEL 200',
+    'LEVEL 300',
+    'LEVEL 400',
+  ];
+
+  Widget levels() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: currentLevels
+                .map((e) => Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              selectedLevel = e;
+                            });
+                          },
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                                const Color(0xff309255)),
+                          ),
+                          child: Text(e),
+                        ),
+                      ),
+                    ))
+                .toList()),
       ),
     );
   }
@@ -123,7 +221,12 @@ class _HomeState extends State<Home> {
       context, MaterialPageRoute(builder: (builder) => const Login()));
 
   void gotoCourse(dynamic courses) => Navigator.push(
-      context, MaterialPageRoute(builder: (builder) => SingleCourse(course: courses, id: widget.id,)));
+      context,
+      MaterialPageRoute(
+          builder: (builder) => SingleCourse(
+                course: courses,
+                id: widget.id,
+              )));
 
   void checkLogin(dynamic course) async {
     final prefs = await SharedPreferences.getInstance();
@@ -220,7 +323,6 @@ class _HomeState extends State<Home> {
     );
   }
 }
-
 
 /*async {
           final prefs = await SharedPreferences.getInstance();

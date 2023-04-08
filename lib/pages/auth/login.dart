@@ -1,4 +1,5 @@
 import 'package:delzyscholars/pages/auth/otp.dart';
+import 'package:delzyscholars/pages/auth/register.dart';
 import 'package:delzyscholars/pages/categories.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -93,8 +94,9 @@ class _LoginState extends State<Login> {
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 TextButton(
+                  // onPressed: () => {},
                     onPressed: () => Navigator.push(context,
-                        MaterialPageRoute(builder: (builder) => const Otp())),
+                        MaterialPageRoute(builder: (builder) => const Register())),
                     child: const Text(
                       'Register',
                       style: TextStyle(
